@@ -12,59 +12,58 @@ import styles from "./Post.module.css";
 export function Post({ author, publishedAt, content }) {
   const [comments, setComments] = useState([
     'Post muito bacana, hein?!'
-  ]);
-  
+  ]);  
     
   const [newCommentText, setNewCommentText] = useState('')
+
+
 
   const publishedDateFormatted = format(publishedAt, "d 'de' LLL 'às' HH:mm'h'", {
     locale: ptBR,
   })
-
   
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
     addSuffix: true,
-  })
-  
+  })  
 
-  function handleNewCommentChange(event) { 
+  function handleCreateNewComment(event) { 
     event.currentTarget.setCustomValidity('');   
     setNewCommentText(event.target.value);
-  }
-  
+  }  
 
     setComments([...comments, newCommentText]);
     setNewCommentText('');    
-  }     
+  } 
    
 
   function handleNewCommentChange() { 
-    event.currentTarget.setCustomValidity('');   
+    event.target.setCustomValidity('');   
     setNewCommentText(event.target.value);
   
   }
 
   function handleNewCommentInvalid () {
-    event.currentTarget.setCUstomValidity('Esse compo é obrigatorio');
+    event.target.setCUstomValidity('Esse compo é obrigatorio');
   }
   
 
   function deleteComment(commentToDelete) {
-    const commentWithoutDeleteOne = comments.filter(comment => {
-      return comment !== commentToDelete;
+    const commentWitshoutDeleteOne = comments.filter(comment => {
+      return comment ==! commentToDelete;
     })
 
-    setComments(commentWithoutDeleteOne);
+    setComments(commentsWithoutDeleteOne);
   }
+
+  const isNewCommentEmpty = newCommentText.length == 0
 
   return (
     <article className={styles.post}>
-      <header className={styles.header}>
-        {/* Informações do autor */}
-        <div className={styles.author}>
+      <header className={styles.header}>        
+        <div className={styles.author}>         
           <Avatar src={author.avatarUrl} />
-          <div className={styles.authorInfo}>
+          <div className={styles.content}>
             <strong>{author.nome}</strong>
             <span>{author.role}</span>
           </div>
@@ -104,7 +103,9 @@ export function Post({ author, publishedAt, content }) {
           required
         />
         <footer>
-          <button type="submit">Publicar</button>
+          <button type="submit" disabled={isNewCommentEmpty}>
+            Publicar
+          </button>
         </footer>
       </form>
   
@@ -114,7 +115,7 @@ export function Post({ author, publishedAt, content }) {
             <Comment
               key={comment}
               content={comment}
-              deleteComment={deleteComment}
+              onDeleteComment={deleteComment}
             />
           );
         })}

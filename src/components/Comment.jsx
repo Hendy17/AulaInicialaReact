@@ -3,19 +3,19 @@ import styles from "./Comment.module.css";
 import { Avatar } from "./Avatar";
 import { useState } from "react";
 
-export function Comment({ content, deleteComment }) {
-    const [likeCount, setLinkCount] = useState(0);
+export function Comment({ content, onDeleteComment }) {
+    const [likeCount, setLikeCount] = useState(0);
 
     function handleDeleteComment() {
-        deleteComment(content);
+        onDeleteComment(content);
     }
 
-    function handleLikeComment () {
-        setLinkCount(likeCount + 1);
+    function handleLikeComment() {
+        setLikeCount((state) => state + 1);
     }
 
     return (
-        <div className={styles.comment}>            
+        <div className={styles.comment}>
             <Avatar hasBorder={false} src="https://github.com/durexex.png" alt="" />
 
             <div className={styles.commentBox}>
@@ -36,7 +36,7 @@ export function Comment({ content, deleteComment }) {
 
                 <footer>
                     <button onClick={handleLikeComment}>
-                        <ThumbsUp /> 
+                        <ThumbsUp />
                         Aplaudir <span>{likeCount}</span>
                     </button>
                 </footer>
