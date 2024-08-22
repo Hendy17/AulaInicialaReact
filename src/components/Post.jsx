@@ -1,87 +1,70 @@
 import { useState } from "react";
-import { format, formatDistanceToNow } from 'date-fns';
-
+import { format, formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-
-import  { Avatar } from "./Avatar";
+import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
-
 import styles from "./Post.module.css";
 
-
 export function Post({ author, publishedAt, content }) {
-  const [comments, setComments] = useState([
-    'Post muito bacana, hein?!'
-  ]);  
-    
-  const [newCommentText, setNewCommentText] = useState('')
-
-
+  const [comments, setComments] = useState(['Post muito bacana, hein?!']);
+  const [newCommentText, setNewCommentText] = useState('');
 
   const publishedDateFormatted = format(publishedAt, "d 'de' LLL 'às' HH:mm'h'", {
     locale: ptBR,
-  })
+  });
   
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
     addSuffix: true,
-  })  
+  });  
 
   function handleCreateNewComment(event) { 
     event.currentTarget.setCustomValidity('');   
-    setNewCommentText(event.target.value);
-  }  
-
     setComments([...comments, newCommentText]);
     setNewCommentText('');    
-  } 
-   
+  }
 
-  function handleNewCommentChange() { 
+  function handleNewCommentChange(event) { 
     event.target.setCustomValidity('');   
-    setNewCommentText(event.target.value);
-  
+    setNewCommentText(event.target.value);  
   }
 
-  function handleNewCommentInvalid () {
-    event.target.setCUstomValidity('Esse compo é obrigatorio');
+  function handleNewCommentInvalid (event) {
+    event.target.setCustomValidity('Esse campo é obrigatório');
   }
   
-
   function deleteComment(commentToDelete) {
-    const commentWitshoutDeleteOne = comments.filter(comment => {
-      return comment ==! commentToDelete;
-    })
-
+    const commentsWithoutDeleteOne = comments.filter(comment => {
+      return comment !== commentToDelete;
+    });
     setComments(commentsWithoutDeleteOne);
   }
 
-  const isNewCommentEmpty = newCommentText.length == 0
+  const isNewCommentEmpty = newCommentText.length === 0;
 
   return (
     <article className={styles.post}>
-      <header className={styles.header}>        
-        <div className={styles.author}>         
+      <header className={styles.header}>
+        <div className={styles.author}>
           <Avatar src={author.avatarUrl} />
-          <div className={styles.content}>
-            <strong>{author.nome}</strong>
+          <div className={styles.authorInfo}>
+            <strong>{author.name}</strong>
             <span>{author.role}</span>
           </div>
         </div>
   
-        {/* Data de publicação */}
         <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
           {publishedDateRelativeToNow}
         </time>
       </header>
   
       <div className={styles.content}>
-        {content.map((line) => {
+        {content.map((line, index) => {
           if (line.type === 'paragraph') {
-            return <p key={line.content}>{line.content}</p>;
+            return <p key={index}>{line.content}</p>;
           } else if (line.type === 'link') {
             return (
-              <p key={line.content}>
+              <p key={index}>
                 <a href="#">{line.content}</a>
               </p>
             );
@@ -110,16 +93,14 @@ export function Post({ author, publishedAt, content }) {
       </form>
   
       <div className={styles.commentList}>
-        {comment.map((comment) => {
-          return (
-            <Comment
-              key={comment}
-              content={comment}
-              onDeleteComment={deleteComment}
-            />
-          );
-        })}
+        {comments.map((comment, index) => (
+          <Comment
+            key={index}
+            content={comment}
+            onDeleteComment={deleteComment}
+          />
+        ))}
       </div>
     </article>
   );
-  
+}

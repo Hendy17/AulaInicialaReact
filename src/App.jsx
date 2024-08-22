@@ -16,10 +16,10 @@ const posts = [
     },
     content: [
       { type: 'paragraph', content: 'Fala galera 👋' },
-      { type: 'paragraph', content: 'Acabei de subir mais um projeto no meu portfólio' },
-      { type: 'paragraph', content: 'um projeto que fiz no NLW Return, evento da Rocketseat' },
-      { type: 'paragraph', content: 'nome do projeto é DoctorCare 🚀' },
-      { type: 'link', content: 'jane.design/doctorcare' },
+      { type: 'paragraph', content: 'Acabei de adicionar um novo projeto no meu portfólio, e estou super animado para compartilhar com vocês! 🚀' },
+      { type: 'paragraph', content: 'O Blog_Dev é uma plataforma de blog que desenvolvi do zero' },
+      { type: 'paragraph', content: 'Nome do pro focada em oferecer uma experiência intuitiva tanto para os leitores quanto para os autores.' },
+      { type: 'link', content: 'hendyvorpagel@gmai.com' },
     ],
     publishedAt: new Date('2023-09-21 21:00:00')
   },
@@ -35,13 +35,13 @@ const posts = [
       { type: 'paragraph', content: 'Acabei de subir mais um projeto no meu portfólio' },
       { type: 'paragraph', content: 'um projeto que fiz no NLW Return, evento da Rocketseat' },
       { type: 'paragraph', content: 'nome do projeto é DoctorCare 🚀' },
-      { type: 'link', content: 'jane.design/doctorcare' },
+      { type: 'link', content: 'hendyvorpagel@gmai.com' },
     ],
     publishedAt: new Date('2023-09-22 20:00:00')
   }
 ];
 
-function App () {
+export function App () {
   return (
     <div>
       <Header />
@@ -62,4 +62,4 @@ function App () {
   );
 }
 
-export default App;
+
